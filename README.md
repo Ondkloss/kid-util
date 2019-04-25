@@ -24,3 +24,7 @@ Verifying KID from string:
 To run the tests:
 
     python -m unittest discover
+
+Or if you have tox:
+
+    tox

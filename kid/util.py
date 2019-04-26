@@ -1,25 +1,24 @@
 # Based on https://no.wikipedia.org/wiki/KID-nummer
 # Length 2 to 25, using either MOD10 or MOD11
-import argparse
 
 
-def make_kid(value, mode='mod10'):
-    if mode == 'mod10':
-        return make_kid_mod10(value)
-    elif mode == 'mod11':
-        return make_kid_mod11(value)
+def make(value, mode='MOD10'):
+    if mode.upper() == 'MOD10':
+        return make_mod10(value)
+    elif mode.upper() == 'MOD11':
+        return make_mod11(value)
 
 
-def make_kid_mod10(value):
-    return str(value) + str(make_kid_mod10_control_digit(value))
+def make_mod10(value):
+    return str(value) + str(make_mod10_control_digit(value))
 
 
-def make_kid_mod11(value):
-    return str(value) + str(make_kid_mod11_control_digit(value))
+def make_mod11(value):
+    return str(value) + str(make_mod11_control_digit(value))
 
 
 # While this could be made more dense, maybe this has some hope of being readable
-def make_kid_mod10_control_digit(value):
+def make_mod10_control_digit(value):
     validate_length(value)
     number = int(value)
     digits = list(str(number))
@@ -41,7 +40,7 @@ def make_kid_mod10_control_digit(value):
 
 
 # While this could be made more dense, maybe this has some hope of being readable
-def make_kid_mod11_control_digit(value):
+def make_mod11_control_digit(value):
     validate_length(value)
     number = int(value)
     digits = list(str(number))
@@ -64,20 +63,20 @@ def make_kid_mod11_control_digit(value):
     return control
 
 
-def verify_kid(value, mode='mod10'):
-    if mode == 'mod10':
-        return verify_kid_mod10(value)
-    elif mode == 'mod11':
-        return verify_kid_mod11(value)
+def verify(value, mode='MOD10'):
+    if mode.upper() == 'MOD10':
+        return verify_mod10(value)
+    elif mode.upper() == 'MOD11':
+        return verify_mod11(value)
 
 
-def verify_kid_mod10(value):
-    generated = make_kid_mod10(value[:-1])
+def verify_mod10(value):
+    generated = make_mod10(value[:-1])
     return value == generated
 
 
-def verify_kid_mod11(value):
-    generated = make_kid_mod11(value[:-1])
+def verify_mod11(value):
+    generated = make_mod11(value[:-1])
     return value == generated
 
 
@@ -92,22 +91,3 @@ def sum_of_digits(n):
     while n:
         r, n = r + n % 10, n // 10
     return r
-
-
-def argparser():
-    parser = argparse.ArgumentParser(description='Generate or verify KID in either MOD10 or MOD11')
-    parser.add_argument('-m', '--mode', choices=['mod10', 'mod11'], default='mod10', help='Choose MOD10 or MOD11 (defaults to MOD10)')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-g', '--generate', metavar='KID', type=str, help='Generate KID from integer string')
-    group.add_argument('-v', '--verify', metavar='KID', type=str, help='Verify validity of KID string')
-
-    return parser.parse_args()
-
-
-if __name__ == "__main__":
-    args = argparser()
-
-    if args.generate:
-        print(make_kid(args.generate, args.mode))
-    elif args.verify:
-        print(verify_kid(args.verify, args.mode))

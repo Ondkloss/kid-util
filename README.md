@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.com/Ondkloss/kid-util.svg?branch=master)](https://travis-ci.com/Ondkloss/kid-util)
 
+**Development moved to PyPi package `norwegian-numbers`: [GitHub](https://github.com/Ondkloss/norwegian-numbers) [PyPi](https://pypi.org/project/norwegian-numbers)**
+
 Simple utils to generate and verify KID numbers with either MOD10 or MOD11.
 
 ## Installation
